@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "lings-tweaks",
+  "version": "${version}",
+  "name": "Ling's Tweaks",
+  "description": "",
+  "authors": [ "MATRIX-feather" ],
+  "contact": {
+    "repo": "https://github.com/MATRIX-feather/lings-tweaks"
+  },
+  "license": "MIT",
+  "icon": "assets/lings-tweaks/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "xyz.nifeather.lingstweaks.client.TweakModClient"
+    ],
+    "modmenu": [
+      "xyz.nifeather.lingstweaks.client.ModMenuApiImpl"
+    ]
+  },
+  "mixins": [
+    "lings-tweaks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

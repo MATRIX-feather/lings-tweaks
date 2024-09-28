@@ -1,0 +1,11 @@
+{
+  "title.lingsTweaks.config": "翎的工具箱：设置",
+  "options.lingsTweaks.minWidth.name": "最小窗口宽度",
+  "options.lingsTweaks.minWidth.desc": "设置游戏窗口的最小宽度",
+  "options.lingsTweaks.minHeight.name": "最小窗口高度",
+  "options.lingsTweaks.minHeight.desc": "设置游戏窗口的最小高度",
+  "options.lingsTweaks.alwaysShowHeadInTabOverlay.name": "总是在Tab列表中显示玩家头像",
+
+  "modmenu.descriptionTranslation.lings-tweaks": "自己常用的一些小东西... :P",
+  "modmenu.nameTranslation.lings-tweaks": "翎的工具箱"
+}

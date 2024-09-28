@@ -1,0 +1,11 @@
+{
+  "title.lingsTweaks.config": "Ling's Tweaks settings",
+  "options.lingsTweaks.minWidth.name": "Minimum window width",
+  "options.lingsTweaks.minWidth.desc": "Sets the minimum width of the game window.",
+  "options.lingsTweaks.minHeight.name": "Minimum window height",
+  "options.lingsTweaks.minHeight.desc": "Sets the minimum height of the game window",
+  "options.lingsTweaks.alwaysShowHeadInTabOverlay.name": "Always show player head in tab overlay",
+
+  "modmenu.descriptionTranslation.lings-tweaks": ":P",
+  "modmenu.nameTranslation.lings-tweaks": "Ling's Tweaks"
+}
