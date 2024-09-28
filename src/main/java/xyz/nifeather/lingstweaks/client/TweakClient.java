@@ -7,6 +7,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +22,7 @@ public class TweakClient
     public static final int DEFAULT_MINIMUM_HEIGHT = 480;
     public static final boolean DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB = true;
     public static final boolean DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS = true;
+    public static final boolean DEFAULT_CLEAR_TITLE_ON_DISCONNECT = true;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");
 
@@ -38,7 +40,8 @@ public class TweakClient
 
     public TweakClient()
     {
-        initConfig();
+        if (!TweakModClient.enabled)
+            earlyInit();
     }
 
     private ModConfigData configData;
@@ -71,5 +74,29 @@ public class TweakClient
         configHolder.load();
 
         this.configData = configHolder.getConfig();
+    }
+
+    private boolean earlyInitDone;
+
+    public void earlyInit()
+    {
+        initConfig();
+
+        earlyInitDone = true;
+    }
+
+    public void modInit()
+    {
+        if (!earlyInitDone)
+            earlyInit();
+
+        ClientPlayConnectionEvents.DISCONNECT.register((packetListener, client) ->
+        {
+            if (configData.clearTitlesOnDisconnect)
+            {
+                client.gui.clear();
+                client.gui.resetTitleTimes();
+            }
+        });
     }
 }

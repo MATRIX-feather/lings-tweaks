@@ -40,6 +40,11 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS)
                         .setSaveConsumer(v -> config.blockPossibleCrashPackets = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.clearTitlesOnDisconnect.name"), config.clearTitlesOnDisconnect)
+                        .setDefaultValue(TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT)
+                        .setSaveConsumer(v -> config.clearTitlesOnDisconnect = v)
+                        .build()
         );
 
         builder.setParentScreen(parentScreen)

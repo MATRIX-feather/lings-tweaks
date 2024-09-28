@@ -7,6 +7,7 @@
   "options.lingsTweaks.alwaysShowHeadInTabOverlay.name": "Always show player head in tab overlay",
   "options.lingsTweaks.blockPossibleCrashPackets.name": "Block possible crash packets",
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "Block packets that may crash the game directly",
+  "options.lingsTweaks.clearTitlesOnDisconnect.name": "Clear titles on server disconnect",
 
   "modmenu.descriptionTranslation.lings-tweaks": ":P",
   "modmenu.nameTranslation.lings-tweaks": "Ling's Tweaks"

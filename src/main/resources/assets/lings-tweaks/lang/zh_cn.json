@@ -7,6 +7,7 @@
   "options.lingsTweaks.alwaysShowHeadInTabOverlay.name": "总是在Tab列表中显示玩家头像",
   "options.lingsTweaks.blockPossibleCrashPackets.name": "拦截可能的崩端数据包",
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "拦截可能直接崩溃游戏的数据包",
+  "options.lingsTweaks.clearTitlesOnDisconnect.name": "从服务器断连时清除标题",
 
   "modmenu.descriptionTranslation.lings-tweaks": "自己常用的一些小东西... :P",
   "modmenu.nameTranslation.lings-tweaks": "翎的工具箱"
