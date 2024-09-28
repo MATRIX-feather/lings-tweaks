@@ -20,6 +20,7 @@ public class TweakClient
     public static final int DEFAULT_MINIMUM_WIDTH = 854;
     public static final int DEFAULT_MINIMUM_HEIGHT = 480;
     public static final boolean DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB = true;
+    public static final boolean DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS = true;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");
 

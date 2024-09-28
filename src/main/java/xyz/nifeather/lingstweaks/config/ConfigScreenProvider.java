@@ -34,6 +34,12 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB)
                         .setSaveConsumer(v -> config.alwaysShowHeadInTab = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.name"), config.blockPossibleCrashPackets)
+                        .setTooltip(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS)
+                        .setSaveConsumer(v -> config.blockPossibleCrashPackets = v)
+                        .build()
         );
 
         builder.setParentScreen(parentScreen)

@@ -11,4 +11,6 @@ public class ModConfigData implements ConfigData
     public int minimumHeight = TweakClient.DEFAULT_MINIMUM_HEIGHT;
 
     public boolean alwaysShowHeadInTab = TweakClient.DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB;
+
+    public boolean blockPossibleCrashPackets = TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS;
 }
