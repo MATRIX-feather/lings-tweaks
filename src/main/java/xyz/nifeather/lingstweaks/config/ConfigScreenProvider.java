@@ -45,6 +45,11 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT)
                         .setSaveConsumer(v -> config.clearTitlesOnDisconnect = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.playerGlow.name"), config.playerGlow)
+                        .setDefaultValue(TweakClient.DEFAULT_PLAYER_GLOW)
+                        .setSaveConsumer(v -> config.playerGlow = v)
+                        .build()
         );
 
         builder.setParentScreen(parentScreen)

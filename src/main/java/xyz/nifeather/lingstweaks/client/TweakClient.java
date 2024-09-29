@@ -23,6 +23,7 @@ public class TweakClient
     public static final boolean DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB = true;
     public static final boolean DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS = true;
     public static final boolean DEFAULT_CLEAR_TITLE_ON_DISCONNECT = true;
+    public static final boolean DEFAULT_PLAYER_GLOW = true;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");
 

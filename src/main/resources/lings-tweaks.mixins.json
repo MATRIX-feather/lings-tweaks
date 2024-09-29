@@ -4,6 +4,7 @@
   "package": "xyz.nifeather.lingstweaks.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "LivingEntityMixin"
   ],
   "client": [
     "ClientPacketListenerMixin",

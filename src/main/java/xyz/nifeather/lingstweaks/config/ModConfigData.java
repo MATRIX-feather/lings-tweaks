@@ -15,4 +15,6 @@ public class ModConfigData implements ConfigData
     public boolean blockPossibleCrashPackets = TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS;
 
     public boolean clearTitlesOnDisconnect = TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT;
+
+    public boolean playerGlow = TweakClient.DEFAULT_PLAYER_GLOW;
 }
