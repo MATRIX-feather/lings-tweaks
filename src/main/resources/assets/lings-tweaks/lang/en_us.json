@@ -10,6 +10,10 @@
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "Clear titles on server disconnect",
   "options.lingsTweaks.playerGlow.name": "Make me glow!",
 
+  "key.lingsTweaks.openSettings": "Open Settings",
+
+  "category.lingsTweaks.keybind": "Ling's Tweaks",
+
   "modmenu.descriptionTranslation.lings-tweaks": ":P",
   "modmenu.nameTranslation.lings-tweaks": "Ling's Tweaks"
 }

@@ -10,6 +10,10 @@
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "从服务器断连时清除标题",
   "options.lingsTweaks.playerGlow.name": "让我发光！",
 
+  "key.lingsTweaks.openSettings": "打开设置",
+
+  "category.lingsTweaks.keybind": "翎的工具箱",
+
   "modmenu.descriptionTranslation.lings-tweaks": "自己常用的一些小东西... :P",
   "modmenu.nameTranslation.lings-tweaks": "翎的工具箱"
 }
