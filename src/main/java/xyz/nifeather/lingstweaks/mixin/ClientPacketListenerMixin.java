@@ -3,14 +3,17 @@ package xyz.nifeather.lingstweaks.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundExplodePacket;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
+import net.minecraft.world.entity.RelativeMovement;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,8 +24,10 @@ import xyz.nifeather.lingstweaks.config.ModConfigData;
 import java.util.Arrays;
 
 @Mixin(ClientPacketListener.class)
-public class ClientPacketListenerMixin
+public abstract class ClientPacketListenerMixin
 {
+    @Shadow public abstract RegistryAccess.Frozen registryAccess();
+
     @Unique
     private final double worldMax = 29999984 * 2d;
 
@@ -42,7 +47,7 @@ public class ClientPacketListenerMixin
     )
     public void onEntityPosPacket(ClientboundTeleportEntityPacket packet, CallbackInfo ci)
     {
-        if (lingsTweaks$isValueInRange(worldMax, packet.getX(), packet.getY(), packet.getZ()))
+        if (lingsTweaks$isValueOutOfRange(worldMax, packet.getX(), packet.getY(), packet.getZ()))
         {
             lingsTweaks$cancelPacket(packet, ci, "Invalid position");
         }
@@ -55,9 +60,22 @@ public class ClientPacketListenerMixin
     )
     public void onPosAndLookPacket(ClientboundPlayerPositionPacket packet, CallbackInfo ci)
     {
-        if (lingsTweaks$isValueInRange(worldMax, packet.getX(), packet.getY(), packet.getZ(), packet.getXRot(), packet.getYRot(), packet.getId()))
+        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.X, worldMax, packet.getX(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.Y, worldMax, packet.getY(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.Z, worldMax, packet.getZ(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.X_ROT, worldMax, packet.getXRot(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.Y_ROT, worldMax, packet.getYRot(), ci);
+    }
+
+    @Unique
+    private void lingsTweaks$checkPlayerPosPacket(ClientboundPlayerPositionPacket packet,
+                                                  RelativeMovement relMove,
+                                                  double worldMax, double value, CallbackInfo ci)
+    {
+        if (packet.getRelativeArguments().contains(relMove)
+            && lingsTweaks$isValueOutOfRange(worldMax, value))
         {
-            lingsTweaks$cancelPacket(packet, ci, "Position or Yaw/Pitch/TeleportId invalid");
+            lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: '%s' too big".formatted(relMove));
         }
     }
 
@@ -68,7 +86,7 @@ public class ClientPacketListenerMixin
     )
     public void onExplosion(ClientboundExplodePacket packet, CallbackInfo ci)
     {
-        if (lingsTweaks$isValueInRange(worldMax,
+        if (lingsTweaks$isValueOutOfRange(worldMax,
                 packet.getX(), packet.getY(), packet.getZ(),
                 packet.getKnockbackX(), packet.getKnockbackY(), packet.getKnockbackZ()))
         {
@@ -83,7 +101,7 @@ public class ClientPacketListenerMixin
     )
     public void onParticle(ClientboundLevelParticlesPacket packet, CallbackInfo ci)
     {
-        if (lingsTweaks$isValueInRange(worldMax,
+        if (lingsTweaks$isValueOutOfRange(worldMax,
                 packet.getX(), packet.getY(), packet.getZ(),
                 packet.getXDist(), packet.getYDist(), packet.getZDist(),
                 packet.getMaxSpeed()))
@@ -113,9 +131,12 @@ public class ClientPacketListenerMixin
     }
 
     @Unique
-    private boolean lingsTweaks$isValueInRange(double max, double... values)
+    private boolean lingsTweaks$isValueOutOfRange(double max, double... values)
     {
         return lingsTweaks$configData.blockPossibleCrashPackets
-                && Arrays.stream(values).anyMatch(v -> Math.abs(v) > max);
+                && Arrays.stream(values).anyMatch(v ->
+        {
+            return Double.isNaN(v) || Math.abs(v) > max;
+        });
     }
 }
