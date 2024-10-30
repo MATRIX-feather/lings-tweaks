@@ -10,7 +10,7 @@ import net.minecraft.network.protocol.game.ClientboundExplodePacket;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
-import net.minecraft.world.entity.RelativeMovement;
+import net.minecraft.world.entity.Relative;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,9 +50,25 @@ public abstract class ClientPacketListenerMixin
     )
     public void onEntityPosPacket(ClientboundTeleportEntityPacket packet, CallbackInfo ci)
     {
-        if (lingsTweaks$isValueOutOfRange(worldMax, packet.getX(), packet.getY(), packet.getZ()))
+        var change = packet.change().position();
+
+        lingsTweaks$checkTeleportPacket(packet, Relative.X, change.x(), ci);
+        lingsTweaks$checkTeleportPacket(packet, Relative.Y, change.y(), ci);
+        lingsTweaks$checkTeleportPacket(packet, Relative.Z, change.z(), ci);
+
+        lingsTweaks$checkTeleportPacket(packet, Relative.X_ROT, packet.change().xRot(), ci);
+        lingsTweaks$checkTeleportPacket(packet, Relative.Z, packet.change().yRot(), ci);
+    }
+
+    @Unique
+    private void lingsTweaks$checkTeleportPacket(ClientboundTeleportEntityPacket packet,
+                                                  Relative relMove,
+                                                  double value, CallbackInfo ci)
+    {
+        if (packet.relatives().contains(relMove)
+                && lingsTweaks$isValueOutOfRange(worldMax, value))
         {
-            lingsTweaks$cancelPacket(packet, ci, "Invalid position");
+            lingsTweaks$cancelPacket(packet, ci, "handleTeleportPacket: '%s' too big".formatted(relMove));
         }
     }
 
@@ -63,19 +79,21 @@ public abstract class ClientPacketListenerMixin
     )
     public void onPosAndLookPacket(ClientboundPlayerPositionPacket packet, CallbackInfo ci)
     {
-        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.X, worldMax, packet.getX(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.Y, worldMax, packet.getY(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.Z, worldMax, packet.getZ(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.X_ROT, worldMax, packet.getXRot(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, RelativeMovement.Y_ROT, worldMax, packet.getYRot(), ci);
+        var position = packet.change().position();
+
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.X, worldMax, position.x(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.Y, worldMax, position.y(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.Z, worldMax, position.z(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.X_ROT, worldMax, packet.change().xRot(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.Y_ROT, worldMax, packet.change().yRot(), ci);
     }
 
     @Unique
     private void lingsTweaks$checkPlayerPosPacket(ClientboundPlayerPositionPacket packet,
-                                                  RelativeMovement relMove,
+                                                  Relative relMove,
                                                   double worldMax, double value, CallbackInfo ci)
     {
-        if (packet.getRelativeArguments().contains(relMove)
+        if (packet.relatives().contains(relMove)
             && lingsTweaks$isValueOutOfRange(worldMax, value))
         {
             lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: '%s' too big".formatted(relMove));
@@ -89,11 +107,23 @@ public abstract class ClientPacketListenerMixin
     )
     public void onExplosion(ClientboundExplodePacket packet, CallbackInfo ci)
     {
+        var center = packet.center();
+
         if (lingsTweaks$isValueOutOfRange(worldMax,
-                packet.getX(), packet.getY(), packet.getZ(),
-                packet.getKnockbackX(), packet.getKnockbackY(), packet.getKnockbackZ()))
+                center.x(), center.y(), center.z()))
         {
-            lingsTweaks$cancelPacket(packet, ci, "Position or Velocity too large");
+            lingsTweaks$cancelPacket(packet, ci, "Position too large");
+        }
+
+        var knockbackOptional = packet.playerKnockback();
+        if (knockbackOptional.isPresent())
+        {
+            var knockback = knockbackOptional.get();
+            if (lingsTweaks$isValueOutOfRange(worldMax,
+                    knockback.x(), knockback.y(), knockback.z()))
+            {
+                lingsTweaks$cancelPacket(packet, ci, "Knockback velocity too large");
+            }
         }
     }
 
