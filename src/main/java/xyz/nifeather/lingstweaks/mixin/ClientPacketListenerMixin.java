@@ -12,11 +12,13 @@ import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.world.entity.RelativeMovement;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.nifeather.lingstweaks.client.TweakClient;
 import xyz.nifeather.lingstweaks.config.ModConfigData;
@@ -112,6 +114,22 @@ public abstract class ClientPacketListenerMixin
 
         if (packet.getCount() > ParticleLimit.INSTANCE.getMaxLimit())
             lingsTweaks$cancelPacket(packet, ci, "Particle count larger than %s, ignoring".formatted(ParticleLimit.INSTANCE.getMaxLimit()));
+    }
+
+    @Redirect(
+            method = "handleSetPlayerTeamPacket",
+            at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;[Ljava/lang/Object;)V")
+    )
+    private void lingsTweaks$muteTeamWarning(Logger instance, String s, Object[] objects)
+    {
+    }
+
+    @Redirect(
+            method = "handleAddEntity",
+            at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V")
+    )
+    private void lingsTweaks$muteUnknownEntityWarning(Logger instance, String s, Object o)
+    {
     }
 
     @Unique
