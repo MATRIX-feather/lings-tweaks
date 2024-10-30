@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.nifeather.lingstweaks.client.TweakClient;
 import xyz.nifeather.lingstweaks.config.ModConfigData;
+import xyz.nifeather.lingstweaks.misc.ParticleLimit;
 
 import java.util.Arrays;
 
@@ -109,8 +110,8 @@ public abstract class ClientPacketListenerMixin
             lingsTweaks$cancelPacket(packet, ci, "Invalid position, speed, or offset data");
         }
 
-        if (packet.getCount() >= 30000)
-            lingsTweaks$cancelPacket(packet, ci, "Particle count larger than 30000");
+        if (packet.getCount() > ParticleLimit.INSTANCE.getMaxLimit())
+            lingsTweaks$cancelPacket(packet, ci, "Particle count larger than %s, ignoring".formatted(ParticleLimit.INSTANCE.getMaxLimit()));
     }
 
     @Unique
