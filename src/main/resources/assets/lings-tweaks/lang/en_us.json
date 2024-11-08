@@ -9,6 +9,8 @@
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "Block packets that may crash the game directly",
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "Clear titles on server disconnect",
   "options.lingsTweaks.playerGlow.name": "Make me glow!",
+  "options.lingsTweaks.legacyVehiclePackets.name": "Legacy vehicle input packets",
+  "options.lingsTweaks.legacyVehiclePackets.desc": "Always send ServerboundPlayerInputPacket, like < 1.21.2",
 
   "key.lingsTweaks.openSettings": "Open Settings",
 

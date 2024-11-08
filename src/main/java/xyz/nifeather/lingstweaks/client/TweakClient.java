@@ -1,14 +1,13 @@
 package xyz.nifeather.lingstweaks.client;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -24,6 +23,7 @@ public class TweakClient
     public static final boolean DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS = true;
     public static final boolean DEFAULT_CLEAR_TITLE_ON_DISCONNECT = true;
     public static final boolean DEFAULT_PLAYER_GLOW = false;
+    public static final boolean DEFAULT_PRE_1_21_3_STEER_VEHICLE = false;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");
 
@@ -99,5 +99,9 @@ public class TweakClient
                 client.gui.resetTitleTimes();
             }
         });
+    }
+
+    public void tick()
+    {
     }
 }

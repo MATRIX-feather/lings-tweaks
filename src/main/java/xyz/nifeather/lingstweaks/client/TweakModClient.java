@@ -44,6 +44,8 @@ public class TweakModClient implements ClientModInitializer
 
     private void tick(Minecraft minecraft)
     {
+        tweakClient.tick();
+
         if (keyOpenSettings.consumeClick())
             minecraft.setScreen(ConfigScreenProvider.createScreen(tweakClient, null));
     }

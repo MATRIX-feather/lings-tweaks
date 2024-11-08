@@ -9,6 +9,7 @@
   ],
   "client": [
     "ClientPacketListenerMixin",
+    "MixinLocalPlayer",
     "PlayerTabOverlayMixin",
     "WindowMixin"
   ],

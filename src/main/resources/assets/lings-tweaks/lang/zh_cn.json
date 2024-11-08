@@ -9,6 +9,8 @@
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "拦截可能直接崩溃游戏的数据包",
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "从服务器断连时清除标题",
   "options.lingsTweaks.playerGlow.name": "让我发光！",
+  "options.lingsTweaks.legacyVehiclePackets.name": "旧版骑乘发包策略",
+  "options.lingsTweaks.legacyVehiclePackets.desc": "骑乘时总是发送 ServerboundPlayerInputPacket, 就像 1.21.2 以前那样",
 
   "key.lingsTweaks.openSettings": "打开设置",
 

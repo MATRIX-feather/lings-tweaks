@@ -46,6 +46,12 @@ public class ConfigScreenProvider
                         .setSaveConsumer(v -> config.clearTitlesOnDisconnect = v)
                         .build()
         ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.legacyVehiclePackets.name"), config.pre1_21_3_steer_vehicle_packets)
+                        .setTooltip(Component.translatable("options.lingsTweaks.legacyVehiclePackets.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_PRE_1_21_3_STEER_VEHICLE)
+                        .setSaveConsumer(v -> config.pre1_21_3_steer_vehicle_packets = v)
+                        .build()
+        ).addEntry(
                 entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.playerGlow.name"), config.playerGlow)
                         .setDefaultValue(TweakClient.DEFAULT_PLAYER_GLOW)
                         .setSaveConsumer(v -> config.playerGlow = v)
