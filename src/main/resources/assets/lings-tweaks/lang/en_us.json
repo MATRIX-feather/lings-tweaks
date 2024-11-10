@@ -7,6 +7,7 @@
   "options.lingsTweaks.alwaysShowHeadInTabOverlay.name": "Always show player head in tab overlay",
   "options.lingsTweaks.blockPossibleCrashPackets.name": "Block possible crash packets",
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "Block packets that may crash the game directly",
+  "options.lingsTweaks.blockPacketShowOnGui.name": "Display packet cancellation on actionbar",
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "Clear titles on server disconnect",
   "options.lingsTweaks.playerGlow.name": "Make me glow!",
   "options.lingsTweaks.legacyVehiclePackets.name": "Legacy vehicle input packets",

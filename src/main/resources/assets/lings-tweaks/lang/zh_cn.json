@@ -7,6 +7,7 @@
   "options.lingsTweaks.alwaysShowHeadInTabOverlay.name": "总是在Tab列表中显示玩家头像",
   "options.lingsTweaks.blockPossibleCrashPackets.name": "拦截可能的崩端数据包",
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "拦截可能直接崩溃游戏的数据包",
+  "options.lingsTweaks.blockPacketShowOnGui.name": "拦截包时显示在actionbar上",
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "从服务器断连时清除标题",
   "options.lingsTweaks.playerGlow.name": "让我发光！",
   "options.lingsTweaks.legacyVehiclePackets.name": "旧版骑乘发包策略",

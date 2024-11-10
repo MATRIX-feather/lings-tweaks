@@ -21,6 +21,7 @@ public class TweakClient
     public static final int DEFAULT_MINIMUM_HEIGHT = 480;
     public static final boolean DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB = true;
     public static final boolean DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS = true;
+    public static final boolean DEFAULT_BLOCK_PACKET_SHOW_ON_GUI = false;
     public static final boolean DEFAULT_CLEAR_TITLE_ON_DISCONNECT = true;
     public static final boolean DEFAULT_PLAYER_GLOW = false;
     public static final boolean DEFAULT_PRE_1_21_3_STEER_VEHICLE = false;

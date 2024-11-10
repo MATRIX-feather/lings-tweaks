@@ -35,6 +35,11 @@ public class ConfigScreenProvider
                         .setSaveConsumer(v -> config.alwaysShowHeadInTab = v)
                         .build()
         ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPacketShowOnGui.name"), config.blockPacketShowOnGui)
+                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_PACKET_SHOW_ON_GUI)
+                        .setSaveConsumer(v -> config.blockPacketShowOnGui = v)
+                        .build()
+        ).addEntry(
                 entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.name"), config.blockPossibleCrashPackets)
                         .setTooltip(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.desc"))
                         .setDefaultValue(TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS)

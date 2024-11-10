@@ -13,6 +13,7 @@ public class ModConfigData implements ConfigData
     public boolean alwaysShowHeadInTab = TweakClient.DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB;
 
     public boolean blockPossibleCrashPackets = TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS;
+    public boolean blockPacketShowOnGui = TweakClient.DEFAULT_BLOCK_PACKET_SHOW_ON_GUI;
 
     public boolean clearTitlesOnDisconnect = TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT;
 

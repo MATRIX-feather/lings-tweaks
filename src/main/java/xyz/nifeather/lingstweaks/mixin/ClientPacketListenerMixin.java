@@ -5,12 +5,11 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundExplodePacket;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
-import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.entity.Relative;
+import net.minecraft.world.item.crafting.RecipeAccess;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,15 +23,16 @@ import xyz.nifeather.lingstweaks.client.TweakClient;
 import xyz.nifeather.lingstweaks.config.ModConfigData;
 import xyz.nifeather.lingstweaks.misc.ParticleLimit;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin
 {
-    @Shadow public abstract RegistryAccess.Frozen registryAccess();
+    @Shadow public abstract Connection getConnection();
 
     @Unique
-    private final double worldMax = 29999984 * 2d;
+    private final double lingsTweaks$worldMax = 29999984 * 2d;
 
     @Unique
     private ModConfigData lingsTweaks$configData;
@@ -66,11 +66,46 @@ public abstract class ClientPacketListenerMixin
                                                   double value, CallbackInfo ci)
     {
         if (packet.relatives().contains(relMove)
-                && lingsTweaks$isValueOutOfRange(worldMax, value))
+                && lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax, value))
         {
             lingsTweaks$cancelPacket(packet, ci, "handleTeleportPacket: '%s' too big".formatted(relMove));
         }
     }
+
+/*
+    @Inject(
+            method = "handleMoveEntity",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void onMoveEntity(ClientboundMoveEntityPacket clientboundMoveEntityPacket, CallbackInfo ci)
+    {
+        lingsTweaks$checkEntityPositionPacket(clientboundMoveEntityPacket, this.lingsTweaks$worldMax, ci);
+    }
+
+    @Unique
+    private void lingsTweaks$checkEntityPositionPacket(ClientboundMoveEntityPacket packet,
+                                                       double worldMax, CallbackInfo ci)
+    {
+        if (packet.hasPosition())
+        {
+            if (lingsTweaks$isValueOutOfRange(worldMax, packet.getXa(), packet.getYa(), packet.getZa()))
+            {
+                lingsTweaks$cancelPacket(packet, ci, "handleMoveEntity: Position too big");
+                return;
+            }
+        }
+
+        if (packet.hasRotation())
+        {
+            if (lingsTweaks$isValueOutOfRange(worldMax, packet.getxRot(), packet.getyRot()))
+            {
+                lingsTweaks$cancelPacket(packet, ci, "handleMoveEntity: Invalid rotation.");
+                return;
+            }
+        }
+    }
+*/
 
     @Inject(
             method = "handleMovePlayer",
@@ -81,11 +116,24 @@ public abstract class ClientPacketListenerMixin
     {
         var position = packet.change().position();
 
-        lingsTweaks$checkPlayerPosPacket(packet, Relative.X, worldMax, position.x(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, Relative.Y, worldMax, position.y(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, Relative.Z, worldMax, position.z(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, Relative.X_ROT, worldMax, packet.change().xRot(), ci);
-        lingsTweaks$checkPlayerPosPacket(packet, Relative.Y_ROT, worldMax, packet.change().yRot(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.X, lingsTweaks$worldMax, position.x(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.Y, lingsTweaks$worldMax, position.y(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.Z, lingsTweaks$worldMax, position.z(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.X_ROT, lingsTweaks$worldMax, packet.change().xRot(), ci);
+        lingsTweaks$checkPlayerPosPacket(packet, Relative.Y_ROT, lingsTweaks$worldMax, packet.change().yRot(), ci);
+
+        if (ci.isCancelled())
+        {
+            var player = Minecraft.getInstance().player;
+
+            if (player != null) // Make IDEA happy, and make crash service sad.
+            {
+                this.getConnection().send(new ServerboundMovePlayerPacket.PosRot(
+                        player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot(), player.onGround(), player.horizontalCollision));
+            }
+        }
+
+        //TweakClient.LOGGER.info("On POSLOOKPACKET! " + " :: canceled? " + ci.isCancelled() + " :: " + packet.change());
     }
 
     @Unique
@@ -93,8 +141,15 @@ public abstract class ClientPacketListenerMixin
                                                   Relative relMove,
                                                   double worldMax, double value, CallbackInfo ci)
     {
-        if (packet.relatives().contains(relMove)
-            && lingsTweaks$isValueOutOfRange(worldMax, value))
+        //TweakClient.LOGGER.info("Packet contains " + relMove + " ? " + packet.relatives().contains(relMove) + " :: and value is " + value);
+
+        if (!packet.relatives().contains(relMove) && lingsTweaks$isValueOutOfRange(worldMax, value))
+        {
+            lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: not declared '%s' but value is out of range '%s'".formatted(relMove, value));
+            return;
+        }
+
+        if (lingsTweaks$isValueOutOfRange(worldMax, value))
         {
             lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: '%s' too big".formatted(relMove));
         }
@@ -109,7 +164,7 @@ public abstract class ClientPacketListenerMixin
     {
         var center = packet.center();
 
-        if (lingsTweaks$isValueOutOfRange(worldMax,
+        if (lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax,
                 center.x(), center.y(), center.z()))
         {
             lingsTweaks$cancelPacket(packet, ci, "Position too large");
@@ -119,7 +174,7 @@ public abstract class ClientPacketListenerMixin
         if (knockbackOptional.isPresent())
         {
             var knockback = knockbackOptional.get();
-            if (lingsTweaks$isValueOutOfRange(worldMax,
+            if (lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax,
                     knockback.x(), knockback.y(), knockback.z()))
             {
                 lingsTweaks$cancelPacket(packet, ci, "Knockback velocity too large");
@@ -134,7 +189,7 @@ public abstract class ClientPacketListenerMixin
     )
     public void onParticle(ClientboundLevelParticlesPacket packet, CallbackInfo ci)
     {
-        if (lingsTweaks$isValueOutOfRange(worldMax,
+        if (lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax,
                 packet.getX(), packet.getY(), packet.getZ(),
                 packet.getXDist(), packet.getYDist(), packet.getZDist(),
                 packet.getMaxSpeed()))
@@ -146,37 +201,29 @@ public abstract class ClientPacketListenerMixin
             lingsTweaks$cancelPacket(packet, ci, "Particle count larger than %s, ignoring".formatted(ParticleLimit.INSTANCE.getMaxLimit()));
     }
 
-    @Redirect(
-            method = "handleSetPlayerTeamPacket",
-            at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;[Ljava/lang/Object;)V")
-    )
-    private void lingsTweaks$muteTeamWarning(Logger instance, String s, Object[] objects)
-    {
-    }
-
-    @Redirect(
-            method = "handleAddEntity",
-            at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V")
-    )
-    private void lingsTweaks$muteUnknownEntityWarning(Logger instance, String s, Object o)
-    {
-    }
-
-    @Unique
-    private void lingsTweaks$cancelPacket(Packet<?> packet, CallbackInfo ci)
-    {
-        lingsTweaks$cancelPacket(packet, ci, null);
-    }
-
     @Unique
     private void lingsTweaks$cancelPacket(Packet<?> packet, CallbackInfo ci, @Nullable String reason)
     {
-        if (reason == null)
-            TweakClient.LOGGER.info("Cancelling invalid %s packet from server!".formatted(packet));
-        else
-            TweakClient.LOGGER.info("Cancelling invalid %s packet from server: %s".formatted(packet, reason));
-
         ci.cancel();
+
+        String logString = null;
+
+        if (reason == null)
+            logString = "Cancelling invalid %s packet from server!".formatted(packet.getClass().getSimpleName());
+        else
+            logString = "Cancelling invalid %s packet from server: %s".formatted(packet.getClass().getSimpleName(), reason);
+
+        TweakClient.LOGGER.info(logString);
+
+        if (TweakClient.instance().getConfigData().blockPacketShowOnGui)
+        {
+            String messageString = "Bad packet: %s".formatted(reason);
+
+            var player = Minecraft.getInstance().player;
+            if (player != null)
+                player.displayClientMessage(Component.literal(messageString), true);
+
+        }
     }
 
     @Unique
@@ -185,7 +232,7 @@ public abstract class ClientPacketListenerMixin
         return lingsTweaks$configData.blockPossibleCrashPackets
                 && Arrays.stream(values).anyMatch(v ->
         {
-            return Double.isNaN(v) || Math.abs(v) > max;
+            return Double.isInfinite(max) || Double.isNaN(v) || Math.abs(v) > max;
         });
     }
 }
