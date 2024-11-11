@@ -35,17 +35,6 @@ public class ConfigScreenProvider
                         .setSaveConsumer(v -> config.alwaysShowHeadInTab = v)
                         .build()
         ).addEntry(
-                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPacketShowOnGui.name"), config.blockPacketShowOnGui)
-                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_PACKET_SHOW_ON_GUI)
-                        .setSaveConsumer(v -> config.blockPacketShowOnGui = v)
-                        .build()
-        ).addEntry(
-                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.name"), config.blockPossibleCrashPackets)
-                        .setTooltip(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.desc"))
-                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS)
-                        .setSaveConsumer(v -> config.blockPossibleCrashPackets = v)
-                        .build()
-        ).addEntry(
                 entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.clearTitlesOnDisconnect.name"), config.clearTitlesOnDisconnect)
                         .setDefaultValue(TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT)
                         .setSaveConsumer(v -> config.clearTitlesOnDisconnect = v)
@@ -60,6 +49,32 @@ public class ConfigScreenProvider
                 entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.playerGlow.name"), config.playerGlow)
                         .setDefaultValue(TweakClient.DEFAULT_PLAYER_GLOW)
                         .setSaveConsumer(v -> config.playerGlow = v)
+                        .build()
+        );
+
+        ConfigCategory categoryPacket = builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.packets"));
+
+        categoryPacket.addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.name"), config.blockPossibleCrashPackets)
+                        .setTooltip(Component.translatable("options.lingsTweaks.blockPossibleCrashPackets.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS)
+                        .setSaveConsumer(v -> config.blockPossibleCrashPackets = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPacketShowOnGui.name"), config.blockPacketShowOnGui)
+                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_PACKET_SHOW_ON_GUI)
+                        .setSaveConsumer(v -> config.blockPacketShowOnGui = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.blockPacketSendChat.name"), config.blockSendChat)
+                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_PACKET_SEND_CHAT)
+                        .setSaveConsumer(v -> config.blockSendChat = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startStrField(Component.translatable("options.lingsTweaks.blockPacketChatContent.name"), config.blockChatMessage)
+                        .setTooltip(Component.translatable("options.lingsTweaks.blockPacketChatContent.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_BLOCK_CHAT_MESSAGE)
+                        .setSaveConsumer(v -> config.blockChatMessage = v)
                         .build()
         );
 

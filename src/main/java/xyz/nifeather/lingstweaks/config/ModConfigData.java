@@ -14,6 +14,8 @@ public class ModConfigData implements ConfigData
 
     public boolean blockPossibleCrashPackets = TweakClient.DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS;
     public boolean blockPacketShowOnGui = TweakClient.DEFAULT_BLOCK_PACKET_SHOW_ON_GUI;
+    public boolean blockSendChat = TweakClient.DEFAULT_BLOCK_PACKET_SEND_CHAT;
+    public String blockChatMessage = TweakClient.DEFAULT_BLOCK_CHAT_MESSAGE;
 
     public boolean clearTitlesOnDisconnect = TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT;
 

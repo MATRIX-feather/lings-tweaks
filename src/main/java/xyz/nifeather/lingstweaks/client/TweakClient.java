@@ -20,8 +20,12 @@ public class TweakClient
     public static final int DEFAULT_MINIMUM_WIDTH = 854;
     public static final int DEFAULT_MINIMUM_HEIGHT = 480;
     public static final boolean DEFAULT_ALWAYS_SHOW_HEAD_IN_TAB = true;
+
     public static final boolean DEFAULT_BLOCK_POSSIBLE_CRASH_PACKETS = true;
     public static final boolean DEFAULT_BLOCK_PACKET_SHOW_ON_GUI = false;
+    public static final boolean DEFAULT_BLOCK_PACKET_SEND_CHAT = false;
+    public static final String DEFAULT_BLOCK_CHAT_MESSAGE = "杂鱼服务器想要崩掉此客户端，但是这次不行喵！[%s]";
+
     public static final boolean DEFAULT_CLEAR_TITLE_ON_DISCONNECT = true;
     public static final boolean DEFAULT_PLAYER_GLOW = false;
     public static final boolean DEFAULT_PRE_1_21_3_STEER_VEHICLE = false;

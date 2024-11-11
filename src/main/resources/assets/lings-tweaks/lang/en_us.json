@@ -8,10 +8,15 @@
   "options.lingsTweaks.blockPossibleCrashPackets.name": "Block possible crash packets",
   "options.lingsTweaks.blockPossibleCrashPackets.desc": "Block packets that may crash the game directly",
   "options.lingsTweaks.blockPacketShowOnGui.name": "Display packet cancellation on actionbar",
+  "options.lingsTweaks.blockPacketSendChat.name": "Send chat message when blocked a packet",
+  "options.lingsTweaks.blockPacketChatContent.name": "The content of the chat message",
+  "options.lingsTweaks.blockPacketChatContent.desc": "Place '%s' at where the backend message formats",
   "options.lingsTweaks.clearTitlesOnDisconnect.name": "Clear titles on server disconnect",
   "options.lingsTweaks.playerGlow.name": "Make me glow!",
   "options.lingsTweaks.legacyVehiclePackets.name": "Legacy vehicle input packets",
   "options.lingsTweaks.legacyVehiclePackets.desc": "Always send ServerboundPlayerInputPacket, like < 1.21.2",
+
+  "stat.lingsTweaks.packets": "Packets",
 
   "key.lingsTweaks.openSettings": "Open Settings",
 

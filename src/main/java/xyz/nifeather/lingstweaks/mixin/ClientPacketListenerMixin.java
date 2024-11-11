@@ -3,33 +3,30 @@ package xyz.nifeather.lingstweaks.mixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.entity.Relative;
-import net.minecraft.world.item.crafting.RecipeAccess;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.nifeather.lingstweaks.client.TweakClient;
 import xyz.nifeather.lingstweaks.config.ModConfigData;
 import xyz.nifeather.lingstweaks.misc.ParticleLimit;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin
 {
     @Shadow public abstract Connection getConnection();
+
+    @Shadow public abstract void sendChat(String string);
 
     @Unique
     private final double lingsTweaks$worldMax = 29999984 * 2d;
@@ -68,7 +65,7 @@ public abstract class ClientPacketListenerMixin
         if (packet.relatives().contains(relMove)
                 && lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax, value))
         {
-            lingsTweaks$cancelPacket(packet, ci, "handleTeleportPacket: '%s' too big".formatted(relMove));
+            lingsTweaks$cancelPacket(packet, ci, "handleTeleportPacket: Relative '%s' too big".formatted(relMove));
         }
     }
 
@@ -143,15 +140,17 @@ public abstract class ClientPacketListenerMixin
     {
         //TweakClient.LOGGER.info("Packet contains " + relMove + " ? " + packet.relatives().contains(relMove) + " :: and value is " + value);
 
-        if (!packet.relatives().contains(relMove) && lingsTweaks$isValueOutOfRange(worldMax, value))
+        if (!packet.relatives().contains(relMove)
+                && !Double.isNaN(value)
+                && lingsTweaks$isValueOutOfRange(worldMax, value))
         {
-            lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: not declared '%s' but value is out of range '%s'".formatted(relMove, value));
+            lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: Not declared Relative '%s' but has a value that is out of range: '%s'".formatted(relMove, value));
             return;
         }
 
         if (lingsTweaks$isValueOutOfRange(worldMax, value))
         {
-            lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: '%s' too big".formatted(relMove));
+            lingsTweaks$cancelPacket(packet, ci, "handleMovePlayer: Relative '%s' too big".formatted(relMove));
         }
     }
 
@@ -167,7 +166,7 @@ public abstract class ClientPacketListenerMixin
         if (lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax,
                 center.x(), center.y(), center.z()))
         {
-            lingsTweaks$cancelPacket(packet, ci, "Position too large");
+            lingsTweaks$cancelPacket(packet, ci, "handleExplosion: Position too large");
         }
 
         var knockbackOptional = packet.playerKnockback();
@@ -177,7 +176,7 @@ public abstract class ClientPacketListenerMixin
             if (lingsTweaks$isValueOutOfRange(lingsTweaks$worldMax,
                     knockback.x(), knockback.y(), knockback.z()))
             {
-                lingsTweaks$cancelPacket(packet, ci, "Knockback velocity too large");
+                lingsTweaks$cancelPacket(packet, ci, "handleExplosion: Knockback velocity too large");
             }
         }
     }
@@ -194,11 +193,11 @@ public abstract class ClientPacketListenerMixin
                 packet.getXDist(), packet.getYDist(), packet.getZDist(),
                 packet.getMaxSpeed()))
         {
-            lingsTweaks$cancelPacket(packet, ci, "Invalid position, speed, or offset data");
+            lingsTweaks$cancelPacket(packet, ci, "handleParticleEvent: Invalid position, speed, or offset data");
         }
 
         if (packet.getCount() > ParticleLimit.INSTANCE.getMaxLimit())
-            lingsTweaks$cancelPacket(packet, ci, "Particle count larger than %s, ignoring".formatted(ParticleLimit.INSTANCE.getMaxLimit()));
+            lingsTweaks$cancelPacket(packet, ci, "handleParticleEvent: Particle count larger than %s, ignoring".formatted(ParticleLimit.INSTANCE.getMaxLimit()));
     }
 
     @Unique
@@ -222,7 +221,48 @@ public abstract class ClientPacketListenerMixin
             var player = Minecraft.getInstance().player;
             if (player != null)
                 player.displayClientMessage(Component.literal(messageString), true);
+        }
 
+        lingsTweaks$chatMessage = reason;
+    }
+
+    @Nullable
+    @Unique
+    private String lingsTweaks$chatMessage = null;
+
+    @Unique
+    private int lingsTweaks$sendCooldown;
+
+    @Inject(
+            method = "tick",
+            at = @At("HEAD")
+    )
+    private void onTick(CallbackInfo ci)
+    {
+        lingsTweaks$sendCooldown--;
+
+        if (lingsTweaks$sendCooldown < 0)
+        {
+            if (TweakClient.instance().getConfigData().blockSendChat
+                    && lingsTweaks$chatMessage != null)
+            {
+                var msg = lingsTweaks$configData.blockChatMessage;
+                lingsTweaks$sendCooldown = 30;
+
+                try
+                {
+                    this.sendChat(msg.formatted(lingsTweaks$chatMessage));
+                }
+                catch (Throwable t)
+                {
+                    this.sendChat(msg.formatted("Failed sending raw output"));
+
+                    TweakClient.LOGGER.error("Failed sending raw output: " + t.getMessage());
+                    t.printStackTrace();
+                }
+            }
+
+            lingsTweaks$chatMessage = null;
         }
     }
 
@@ -232,7 +272,7 @@ public abstract class ClientPacketListenerMixin
         return lingsTweaks$configData.blockPossibleCrashPackets
                 && Arrays.stream(values).anyMatch(v ->
         {
-            return Double.isInfinite(max) || Double.isNaN(v) || Math.abs(v) > max;
+            return Double.isInfinite(v) || Double.isNaN(v) || Math.abs(v) > max;
         });
     }
 }
