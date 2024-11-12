@@ -16,6 +16,8 @@
   "options.lingsTweaks.playerGlow.name": "让我发光！",
   "options.lingsTweaks.legacyVehiclePackets.name": "旧版骑乘发包策略",
   "options.lingsTweaks.legacyVehiclePackets.desc": "骑乘时总是发送 ServerboundPlayerInputPacket, 就像 1.21.2 以前那样",
+  "options.lingsTweaks.dontSitOnMe.name": "别坐我身上！",
+  "options.lingsTweaks.dontSitOnMe.desc": "被骑乘时自动发送假的输入包",
 
   "key.lingsTweaks.openSettings": "打开设置",
 

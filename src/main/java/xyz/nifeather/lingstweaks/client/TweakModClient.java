@@ -34,7 +34,7 @@ public class TweakModClient implements ClientModInitializer
         this.tweakClient = TweakClient.instance();
         tweakClient.modInit();
 
-        ClientTickEvents.END_CLIENT_TICK.register(this::tick);
+        ClientTickEvents.START_CLIENT_TICK.register(this::tick);
 
         keyOpenSettings = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.lingsTweaks.openSettings", InputConstants.Type.KEYSYM,

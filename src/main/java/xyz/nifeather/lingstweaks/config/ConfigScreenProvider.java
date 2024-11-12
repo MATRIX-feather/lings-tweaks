@@ -50,6 +50,12 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_PLAYER_GLOW)
                         .setSaveConsumer(v -> config.playerGlow = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.dontSitOnMe.name"), config.dontSitOnMe)
+                        .setTooltip(Component.translatable("options.lingsTweaks.dontSitOnMe.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_DONT_SIT_ON_ME)
+                        .setSaveConsumer(v -> config.dontSitOnMe = v)
+                        .build()
         );
 
         ConfigCategory categoryPacket = builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.packets"));
