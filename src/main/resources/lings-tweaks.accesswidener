@@ -1,0 +1,7 @@
+accessWidener v2 named
+accessible class net/minecraft/client/gui/Font$StringRenderOutput
+
+# Glyph
+accessible class net/minecraft/client/gui/font/providers/BitmapProvider$Glyph
+accessible class com/mojang/blaze3d/font/TrueTypeGlyphProvider$Glyph
+accessible class net/minecraft/client/gui/font/providers/UnihexProvider$Glyph

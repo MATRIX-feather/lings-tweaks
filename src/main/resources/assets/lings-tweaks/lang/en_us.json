@@ -17,8 +17,18 @@
   "options.lingsTweaks.legacyVehiclePackets.desc": "Always send ServerboundPlayerInputPacket, like < 1.21.2",
   "options.lingsTweaks.dontSitOnMe.name": "Don't sit on me!",
   "options.lingsTweaks.dontSitOnMe.desc": "Sends fake sneak packet when you got a passenger",
+  "options.lingsTweaks.enableFontShadowTweak": "Enable shadow tweak",
+  "options.lingsTweaks.shadowOffset": "Shadow offset",
+  "options.lingsTweaks.enableFontBoldTweak": "Enable bold tweak",
+  "options.lingsTweaks.boldOffset": "Bold offset",
+  "options.lingsTweaks.highlightBold": "Highlight bold texts",
+  "options.lingsTweaks.highlightFactor": "Highlight factor",
 
   "stat.lingsTweaks.packets": "Packets",
+  "stat.lingsTweaks.font.bitmap": "Bitmap Font",
+  "stat.lingsTweaks.font.ttf": "TTF Font",
+  "stat.lingsTweaks.font.unihex": "Unihex Font",
+  "stat.lingsTweaks.font.other_settings": "Other font settings",
 
   "key.lingsTweaks.openSettings": "Open Settings",
 

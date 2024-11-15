@@ -24,4 +24,11 @@ public class ModConfigData implements ConfigData
     public boolean pre1_21_3_steer_vehicle_packets = TweakClient.DEFAULT_PRE_1_21_3_STEER_VEHICLE;
 
     public boolean dontSitOnMe = TweakClient.DEFAULT_DONT_SIT_ON_ME;
+
+    public boolean lightenBoldTexts = false;
+    public float lightenFactor = 0.1f;
+
+    public FontConfiguration bitmapSettings = new FontConfiguration();
+    public FontConfiguration unihexSettings = new FontConfiguration();
+    public FontConfiguration ttfSettings = new FontConfiguration();
 }

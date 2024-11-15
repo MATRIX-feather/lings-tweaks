@@ -7,6 +7,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import xyz.nifeather.lingstweaks.client.TweakClient;
 
+import java.util.function.Consumer;
+
 public class ConfigScreenProvider
 {
     public static Screen createScreen(TweakClient tweakClient, Screen parentScreen)
@@ -50,12 +52,6 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_PLAYER_GLOW)
                         .setSaveConsumer(v -> config.playerGlow = v)
                         .build()
-        ).addEntry(
-                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.dontSitOnMe.name"), config.dontSitOnMe)
-                        .setTooltip(Component.translatable("options.lingsTweaks.dontSitOnMe.desc"))
-                        .setDefaultValue(TweakClient.DEFAULT_DONT_SIT_ON_ME)
-                        .setSaveConsumer(v -> config.dontSitOnMe = v)
-                        .build()
         );
 
         ConfigCategory categoryPacket = builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.packets"));
@@ -82,6 +78,45 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_BLOCK_CHAT_MESSAGE)
                         .setSaveConsumer(v -> config.blockChatMessage = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.dontSitOnMe.name"), config.dontSitOnMe)
+                        .setTooltip(Component.translatable("options.lingsTweaks.dontSitOnMe.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_DONT_SIT_ON_ME)
+                        .setSaveConsumer(v -> config.dontSitOnMe = v)
+                        .build()
+        );
+
+        buildFontConfiguration(
+                builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.font.bitmap")),
+                entryBuilder,
+                config.bitmapSettings
+        );
+
+        buildFontConfiguration(
+                builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.font.unihex")),
+                entryBuilder,
+                config.unihexSettings
+        );
+
+        buildFontConfiguration(
+                builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.font.ttf")),
+                entryBuilder,
+                config.ttfSettings
+        );
+
+        ConfigCategory otherFontSettings = builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.font.other_settings"));
+
+        otherFontSettings.addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.highlightBold"), config.lightenBoldTexts)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(v -> config.lightenBoldTexts = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startIntSlider(Component.translatable("options.lingsTweaks.highlightFactor"), (int)(config.lightenFactor * 100), 0, 100)
+                        .setTextGetter((value) -> Component.literal(value + "%"))
+                        .setDefaultValue(10)
+                        .setSaveConsumer(v -> config.lightenFactor = v / 100f)
+                        .build()
         );
 
         builder.setParentScreen(parentScreen)
@@ -90,5 +125,33 @@ public class ConfigScreenProvider
                 .setSavingRunnable(tweakClient::saveConfig);
 
         return builder.build();
+    }
+
+    private static void buildFontConfiguration(ConfigCategory category, ConfigEntryBuilder entryBuilder, FontConfiguration config)
+    {
+        category.addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.enableFontShadowTweak"), config.enableShadowOffset)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(v -> config.enableShadowOffset = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startIntSlider(Component.translatable("options.lingsTweaks.shadowOffset"), (int)(config.shadowOffset * 100), 0, 100)
+                        .setDefaultValue(50)
+                        .setTextGetter((value) -> Component.literal(value + "%"))
+                        .setSaveConsumer(v -> config.shadowOffset = v / 100f)
+                        .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.enableFontBoldTweak"), config.enableBoldOffset)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(v -> config.enableBoldOffset = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startIntSlider(Component.translatable("options.lingsTweaks.boldOffset"), (int)(config.boldOffset * 100), 0, 100)
+                        .setDefaultValue(50)
+                        .setTextGetter((value) -> Component.literal(value + "%"))
+                        .setSaveConsumer(v -> config.boldOffset = v / 100f)
+                        .build()
+        );
+
     }
 }

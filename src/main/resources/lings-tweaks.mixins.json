@@ -5,13 +5,18 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "EntityTypeMixin",
-    "LivingEntityMixin"
+    "FontMixin",
+    "LivingEntityMixin",
+    "font.BitmapGlyphMixin"
   ],
   "client": [
     "ClientPacketListenerMixin",
     "MixinLocalPlayer",
+    "MixinTextureManager",
     "PlayerTabOverlayMixin",
-    "WindowMixin"
+    "WindowMixin",
+    "font.TrueTypeGlyphMixin",
+    "font.UnihexGlyphMixin"
   ],
   "injectors": {
     "defaultRequire": 1
