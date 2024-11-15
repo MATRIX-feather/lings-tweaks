@@ -6,7 +6,7 @@
   "description": "",
   "authors": [ "MATRIX-feather" ],
   "contact": {
-    "repo": "https://github.com/MATRIX-feather/lings-tweaks"
+    "sources": "https://github.com/MATRIX-feather/lings-tweaks"
   },
   "license": "MIT",
   "icon": "assets/lings-tweaks/icon.png",
