@@ -23,6 +23,8 @@
   "options.lingsTweaks.boldOffset": "粗体位移",
   "options.lingsTweaks.highlightBold": "高亮粗体字",
   "options.lingsTweaks.highlightFactor": "高亮倍数",
+  "options.lingsTweaks.noPacketErrorDisconnect.name": "网络协议错误时不断连",
+  "options.lingsTweaks.noPacketErrorDisconnect.desc": "注意！这可能会造成一些异常行为，风险自负",
 
   "stat.lingsTweaks.packets": "发包",
   "stat.lingsTweaks.font.bitmap": "位图字体",
@@ -35,5 +37,9 @@
   "category.lingsTweaks.keybind": "翎的工具箱",
 
   "modmenu.descriptionTranslation.lings-tweaks": "自己常用的一些小东西... :P",
-  "modmenu.nameTranslation.lings-tweaks": "翎的工具箱"
+  "modmenu.nameTranslation.lings-tweaks": "翎的工具箱",
+
+  "message.lingsTweaks.handledPacketError": "发生了网络协议错误！",
+  "message.lingsTweaks.handledPacketError2": "正在取消CallbackInfo来让我们不至于从服务器断开连接",
+  "message.lingsTweaks.handledPacketError3": "点击打开报错日志"
 }

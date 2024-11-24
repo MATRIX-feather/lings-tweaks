@@ -23,6 +23,8 @@
   "options.lingsTweaks.boldOffset": "Bold offset",
   "options.lingsTweaks.highlightBold": "Highlight bold texts",
   "options.lingsTweaks.highlightFactor": "Highlight factor",
+  "options.lingsTweaks.noPacketErrorDisconnect.name": "No disconnect on protocol error",
+  "options.lingsTweaks.noPacketErrorDisconnect.desc": "Beware! This may cause bad states on gameplay, use at your own risk.",
 
   "stat.lingsTweaks.packets": "Packets",
   "stat.lingsTweaks.font.bitmap": "Bitmap Font",
@@ -35,5 +37,9 @@
   "category.lingsTweaks.keybind": "Ling's Tweaks",
 
   "modmenu.descriptionTranslation.lings-tweaks": ":P",
-  "modmenu.nameTranslation.lings-tweaks": "Ling's Tweaks"
+  "modmenu.nameTranslation.lings-tweaks": "Ling's Tweaks",
+
+  "message.lingsTweaks.handledPacketError": "A packet error occurred!",
+  "message.lingsTweaks.handledPacketError2": "Cancelling CallbackInfo so we don't disconnect from the server",
+  "message.lingsTweaks.handledPacketError3": "Click here to open report"
 }

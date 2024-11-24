@@ -31,4 +31,6 @@ public class ModConfigData implements ConfigData
     public FontConfiguration bitmapSettings = new FontConfiguration();
     public FontConfiguration unihexSettings = new FontConfiguration();
     public FontConfiguration ttfSettings = new FontConfiguration();
+
+    public boolean noDisconnectOnPacketError = TweakClient.DEFAULT_NO_DISCONNECT_ON_PACKET_ERROR;
 }

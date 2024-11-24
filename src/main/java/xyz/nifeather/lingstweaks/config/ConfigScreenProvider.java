@@ -3,8 +3,11 @@ package xyz.nifeather.lingstweaks.config;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.common.ClientboundPingPacket;
 import xyz.nifeather.lingstweaks.client.TweakClient;
 
 import java.util.function.Consumer;
@@ -83,6 +86,22 @@ public class ConfigScreenProvider
                         .setTooltip(Component.translatable("options.lingsTweaks.dontSitOnMe.desc"))
                         .setDefaultValue(TweakClient.DEFAULT_DONT_SIT_ON_ME)
                         .setSaveConsumer(v -> config.dontSitOnMe = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.noPacketErrorDisconnect.name"), config.noDisconnectOnPacketError)
+                        .setTooltip(Component.translatable("options.lingsTweaks.noPacketErrorDisconnect.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_NO_DISCONNECT_ON_PACKET_ERROR)
+                        .setSaveConsumer(v -> config.noDisconnectOnPacketError = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.literal("触发协议错误"), false)
+                        .setSaveConsumer(v ->
+                        {
+                            if (!v) return;
+
+                            var packet = new ClientboundPingPacket(0);
+                            Minecraft.getInstance().player.connection.onPacketError(packet, new RuntimeException("Oops"));
+                        })
                         .build()
         );
 

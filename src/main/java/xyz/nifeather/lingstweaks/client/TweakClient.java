@@ -35,6 +35,8 @@ public class TweakClient
     public static final boolean DEFAULT_PLAYER_GLOW = false;
     public static final boolean DEFAULT_PRE_1_21_3_STEER_VEHICLE = false;
 
+    public static final boolean DEFAULT_NO_DISCONNECT_ON_PACKET_ERROR = false;
+
     public static final boolean DEFAULT_DONT_SIT_ON_ME = false;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");
