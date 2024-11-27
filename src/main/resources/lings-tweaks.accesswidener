@@ -5,3 +5,6 @@ accessible class net/minecraft/client/gui/Font$StringRenderOutput
 accessible class net/minecraft/client/gui/font/providers/BitmapProvider$Glyph
 accessible class com/mojang/blaze3d/font/TrueTypeGlyphProvider$Glyph
 accessible class net/minecraft/client/gui/font/providers/UnihexProvider$Glyph
+
+# Screen
+accessible method net/minecraft/client/gui/screens/Screen renderMenuBackground (Lnet/minecraft/client/gui/GuiGraphics;)V

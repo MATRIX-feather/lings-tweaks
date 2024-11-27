@@ -33,4 +33,6 @@ public class ModConfigData implements ConfigData
     public FontConfiguration ttfSettings = new FontConfiguration();
 
     public boolean noDisconnectOnPacketError = TweakClient.DEFAULT_NO_DISCONNECT_ON_PACKET_ERROR;
+
+    public boolean altLoadingTerrain = TweakClient.DEFAULT_ALT_TERRAIN_LOADING;
 }

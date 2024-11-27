@@ -37,6 +37,8 @@ public class TweakClient
 
     public static final boolean DEFAULT_NO_DISCONNECT_ON_PACKET_ERROR = false;
 
+    public static final boolean DEFAULT_ALT_TERRAIN_LOADING = true;
+
     public static final boolean DEFAULT_DONT_SIT_ON_ME = false;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");

@@ -55,6 +55,11 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_PLAYER_GLOW)
                         .setSaveConsumer(v -> config.playerGlow = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.altTerrainLoadingRender.name"), config.altLoadingTerrain)
+                        .setDefaultValue(TweakClient.DEFAULT_ALT_TERRAIN_LOADING)
+                        .setSaveConsumer(v -> config.altLoadingTerrain = v)
+                        .build()
         );
 
         ConfigCategory categoryPacket = builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.packets"));

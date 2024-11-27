@@ -25,6 +25,7 @@
   "options.lingsTweaks.highlightFactor": "Highlight factor",
   "options.lingsTweaks.noPacketErrorDisconnect.name": "No disconnect on protocol error",
   "options.lingsTweaks.noPacketErrorDisconnect.desc": "Beware! This may cause bad states on gameplay, use at your own risk.",
+  "options.lingsTweaks.altTerrainLoadingRender.name": "Alt 'Loading Terrain' screen render",
 
   "stat.lingsTweaks.packets": "Packets",
   "stat.lingsTweaks.font.bitmap": "Bitmap Font",
