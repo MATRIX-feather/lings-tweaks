@@ -26,6 +26,8 @@
   "options.lingsTweaks.noPacketErrorDisconnect.name": "网络协议错误时不断连",
   "options.lingsTweaks.noPacketErrorDisconnect.desc": "注意！这可能会造成一些异常行为，风险自负",
   "options.lingsTweaks.altTerrainLoadingRender.name": "调整加载地形屏幕渲染",
+  "options.lingsTweaks.seamless_reconfigure.name": "'无缝'连接配置屏幕",
+  "options.lingsTweaks.seamless_reconfigure.desc": "在连接重新配置时保持当前客户端世界加载\n注意！这可能会导致以外行为, 风险自负",
 
   "stat.lingsTweaks.packets": "发包",
   "stat.lingsTweaks.font.bitmap": "位图字体",

@@ -12,11 +12,11 @@
   "client": [
     "ClientCommonPacketListenerMixin",
     "ClientPacketListenerMixin",
+    "MinecraftMixin",
     "MixinLocalPlayer",
     "MixinTextureManager",
     "PlayerTabOverlayMixin",
     "ReceivingLevelScreenMixin",
-    "ServerReconfigScreenMixin",
     "WindowMixin",
     "font.TrueTypeGlyphMixin",
     "font.UnihexGlyphMixin"
