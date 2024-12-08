@@ -60,6 +60,12 @@ public class ConfigScreenProvider
                         .setDefaultValue(TweakClient.DEFAULT_ALT_TERRAIN_LOADING)
                         .setSaveConsumer(v -> config.altLoadingTerrain = v)
                         .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.seamless_reconfigure.name"), config.seamlessReconfigure)
+                        .setTooltip(Component.translatable("options.lingsTweaks.seamless_reconfigure.desc"))
+                        .setDefaultValue(TweakClient.DEFAULT_SEAMLESS_RECONFIGURE)
+                        .setSaveConsumer(v -> config.seamlessReconfigure = v)
+                        .build()
         );
 
         ConfigCategory categoryPacket = builder.getOrCreateCategory(Component.translatable("stat.lingsTweaks.packets"));

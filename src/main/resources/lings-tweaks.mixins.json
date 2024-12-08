@@ -12,6 +12,7 @@
   "client": [
     "ClientCommonPacketListenerMixin",
     "ClientPacketListenerMixin",
+    "MinecraftMixin",
     "MixinLocalPlayer",
     "MixinTextureManager",
     "PlayerTabOverlayMixin",

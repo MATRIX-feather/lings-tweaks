@@ -39,6 +39,8 @@ public class TweakClient
 
     public static final boolean DEFAULT_ALT_TERRAIN_LOADING = true;
 
+    public static final boolean DEFAULT_SEAMLESS_RECONFIGURE = false;
+
     public static final boolean DEFAULT_DONT_SIT_ON_ME = false;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Lings-Tweaks");
