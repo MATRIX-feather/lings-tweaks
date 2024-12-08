@@ -47,7 +47,7 @@ public abstract class MinecraftMixin
     )
     public void muteSend(ClientPacketListener instance, Packet<?> packet, Operation<Void> original)
     {
-        if (!clientWorldFrozen)
+        //if (!clientWorldFrozen)
             original.call(instance, packet);
     }
 
@@ -57,7 +57,7 @@ public abstract class MinecraftMixin
     )
     public void muteTick(ClientLevel instance, BooleanSupplier booleanSupplier, Operation<Void> original)
     {
-        if (!clientWorldFrozen)
+        //if (!clientWorldFrozen)
             original.call(instance, booleanSupplier);
     }
 
@@ -67,7 +67,7 @@ public abstract class MinecraftMixin
     )
     public void muteTick(ClientLevel instance, Operation<Void> original)
     {
-        if (!clientWorldFrozen)
+        //if (!clientWorldFrozen)
             original.call(instance);
     }
 
@@ -83,6 +83,7 @@ public abstract class MinecraftMixin
         if (this.clientWorldFrozen)
             this.player = null;
 
+        TweakClient.cancelInvalidPackets = false;
         this.clientWorldFrozen = false;
     }
 
@@ -104,6 +105,7 @@ public abstract class MinecraftMixin
             this.gui.onDisconnected();
             SkullBlockEntity.clear();
 
+            TweakClient.cancelInvalidPackets = true;
             clientWorldFrozen = true;
             ci.cancel();
         }

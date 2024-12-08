@@ -17,8 +17,6 @@ public class ModConfigData implements ConfigData
     public boolean blockSendChat = TweakClient.DEFAULT_BLOCK_PACKET_SEND_CHAT;
     public String blockChatMessage = TweakClient.DEFAULT_BLOCK_CHAT_MESSAGE;
 
-    public boolean clearTitlesOnDisconnect = TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT;
-
     public boolean playerGlow = TweakClient.DEFAULT_PLAYER_GLOW;
 
     public boolean pre1_21_3_steer_vehicle_packets = TweakClient.DEFAULT_PRE_1_21_3_STEER_VEHICLE;

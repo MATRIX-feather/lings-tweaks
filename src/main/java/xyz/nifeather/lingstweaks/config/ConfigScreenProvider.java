@@ -40,11 +40,6 @@ public class ConfigScreenProvider
                         .setSaveConsumer(v -> config.alwaysShowHeadInTab = v)
                         .build()
         ).addEntry(
-                entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.clearTitlesOnDisconnect.name"), config.clearTitlesOnDisconnect)
-                        .setDefaultValue(TweakClient.DEFAULT_CLEAR_TITLE_ON_DISCONNECT)
-                        .setSaveConsumer(v -> config.clearTitlesOnDisconnect = v)
-                        .build()
-        ).addEntry(
                 entryBuilder.startBooleanToggle(Component.translatable("options.lingsTweaks.legacyVehiclePackets.name"), config.pre1_21_3_steer_vehicle_packets)
                         .setTooltip(Component.translatable("options.lingsTweaks.legacyVehiclePackets.desc"))
                         .setDefaultValue(TweakClient.DEFAULT_PRE_1_21_3_STEER_VEHICLE)
