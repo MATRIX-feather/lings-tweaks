@@ -46,6 +46,7 @@ public class LevelScreenRenderHelper
                 0, 0,
                 renderingScreen.width, renderingScreen.height
         );
+
         textWidget.render(guiGraphics, mouseX, mouseY, tickDelta);
     }
 }

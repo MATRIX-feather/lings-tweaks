@@ -4,20 +4,18 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
 import net.minecraft.util.TriState;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.nifeather.lingstweaks.config.ModConfigData;
+import xyz.nifeather.lingstweaks.misc.HudRenderHelper;
 import xyz.nifeather.lingstweaks.misc.ITweakWindow;
 
 public class TweakClient
@@ -113,6 +111,11 @@ public class TweakClient
         ClientPlayConnectionEvents.DISCONNECT.register((packetListener, client) ->
         {
             cancelInvalidPackets = false;
+        });
+
+        HudRenderCallback.EVENT.register((context, dataTracker) ->
+        {
+            HudRenderHelper.INSTANCE.onRender(context, 0, 0, dataTracker.getGameTimeDeltaTicks());
         });
     }
 
