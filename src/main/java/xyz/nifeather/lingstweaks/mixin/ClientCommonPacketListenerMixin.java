@@ -62,9 +62,7 @@ public class ClientCommonPacketListenerMixin
                 clientPlayer.displayClientMessage(
                         Component.translatable("message.lingsTweaks.handledPacketError3")
                                 .withStyle(Style.EMPTY.withClickEvent(
-                                        new ClickEvent(
-                                                ClickEvent.Action.OPEN_FILE, path.toString()
-                                        )
+                                        new ClickEvent.OpenFile(path.toString())
                                 ))
                                 .withStyle(Style.EMPTY.withUnderlined(true)),
                         false
