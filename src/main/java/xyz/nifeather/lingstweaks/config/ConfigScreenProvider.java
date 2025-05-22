@@ -144,6 +144,27 @@ public class ConfigScreenProvider
                         .build()
         );
 
+        ConfigCategory entityFadeSettings = builder.getOrCreateCategory(Component.literal("实体Fade"));
+
+        entityFadeSettings.addEntry(
+                entryBuilder.startBooleanToggle(Component.literal("启用"), config.entityFadeEnabled)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(v -> config.entityFadeEnabled = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startDoubleField(Component.literal("开始距离"), config.entityFadeStartDistance)
+                        .setDefaultValue(4d)
+                        .setMin(0d)
+                        .setSaveConsumer(v -> config.entityFadeStartDistance = v)
+                        .build()
+        ).addEntry(
+                entryBuilder.startDoubleField(Component.literal("最小透明度"), config.entityFadeMinOpacity)
+                        .setDefaultValue(0.2d)
+                        .setMax(1d)
+                        .setSaveConsumer(v -> config.entityFadeMinOpacity = v)
+                        .build()
+        );
+
         builder.setParentScreen(parentScreen)
                 .setTitle(Component.translatable("title.lingsTweaks.config"))
                 .transparentBackground()
